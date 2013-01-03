@@ -1,5 +1,5 @@
 HOMEPAGE = "http://schrodinger.sourceforge.net/"
-LICENSE = "MPL GPLv2 LGPLv2 MIT"
+LICENSE = "MPL-1.1 GPLv2 LGPLv2 MIT"
 LIC_FILES_CHKSUM = "file://COPYING;md5=d91a46405fc074b88c963cc4f2a0aae9 \
                     file://COPYING.GPL;md5=e181e3b7c66f5f96921d813c1074f833 \
                     file://COPYING.LGPL;md5=38c893e21baec4cd75ad800ba9e2410a \
