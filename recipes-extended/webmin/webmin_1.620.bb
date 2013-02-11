@@ -1,27 +1,21 @@
-DESCRIPTION = "Web-based administration interface"
-HOMEPAGE="http://www.webmin.com"
+SUMMARY = "Web-based administration interface"
+HOMEPAGE = "http://www.webmin.com"
 LICENSE = "BSD"
 LIC_FILES_CHKSUM = "file://LICENCE;md5=0373ac9f611e542ddebe1ec6394afc3c"
 
-# FIXME: some of this should be figured out automatically
-RDEPENDS_${PN} += "perl perl-module-socket perl-module-exporter perl-module-exporter-heavy perl-module-carp perl-module-strict"
-RDEPENDS_${PN} += "perl-module-warnings perl-module-xsloader perl-module-posix perl-module-autoloader"
-RDEPENDS_${PN} += "perl-module-fcntl perl-module-tie-hash perl-module-vars perl-module-time-local perl-module-config perl-module-constant"
-RDEPENDS_${PN} += "perl-module-file perl-module-file-glob perl-module-file-copy perl-module-sdbm perl-module-sdbm-file perl-module-timelocal perl-module-feature"
-
 SRC_URI = "${SOURCEFORGE_MIRROR}/webadmin/webmin-${PV}.tar.gz \
-          file://setup.sh \
-          file://init-exclude.patch \
-          file://net-generic.patch \
-          file://remove-startup-option.patch \
-          file://disable-version-check.patch \
-          file://nfs-export.patch \
-          file://exports-lib.pl.patch \
-          file://mount-excludefs.patch \
-          file://samba-config-fix.patch \
-          file://proftpd-config-fix.patch \
-          file://net-lib.pl.patch \
-          file://media-tomb.patch"
+           file://setup.sh \
+           file://init-exclude.patch \
+           file://net-generic.patch \
+           file://remove-startup-option.patch \
+           file://disable-version-check.patch \
+           file://nfs-export.patch \
+           file://exports-lib.pl.patch \
+           file://mount-excludefs.patch \
+           file://samba-config-fix.patch \
+           file://proftpd-config-fix.patch \
+           file://net-lib.pl.patch \
+           file://media-tomb.patch"
 
 SRC_URI[md5sum] = "e93bc5057a5b7d7e31ecb2bb228d7044"
 SRC_URI[sha256sum] = "3d36153406d8e5d3dcaeadba34dfb5cdbc4060b75c38339174ac97b2277f284b"
@@ -71,9 +65,6 @@ do_configure() {
     sed -i "s/find_pid_command=.*/find_pid_command=pidof NAME/" config-generic-linux
 }
 
-INITSCRIPT_NAME = "webmin"
-INITSCRIPT_PARAMS = "start 99 5 3 2 . stop 10 0 1 6 ."
-
 do_install() {
     install -d ${D}${sysconfdir}
     install -d ${D}${sysconfdir}/webmin
@@ -110,6 +101,15 @@ do_install() {
     ${S}/../setup.sh
 }
 
+INITSCRIPT_NAME = "webmin"
+INITSCRIPT_PARAMS = "start 99 5 3 2 . stop 10 0 1 6 ."
+
+# FIXME: some of this should be figured out automatically
+RDEPENDS_${PN} += "perl perl-module-socket perl-module-exporter perl-module-exporter-heavy perl-module-carp perl-module-strict"
+RDEPENDS_${PN} += "perl-module-warnings perl-module-xsloader perl-module-posix perl-module-autoloader"
+RDEPENDS_${PN} += "perl-module-fcntl perl-module-tie-hash perl-module-vars perl-module-time-local perl-module-config perl-module-constant"
+RDEPENDS_${PN} += "perl-module-file perl-module-file-glob perl-module-file-copy perl-module-sdbm perl-module-sdbm-file perl-module-timelocal perl-module-feature"
+
 PACKAGES_DYNAMIC += "webmin-module-*"
 RRECOMMENDS_${PN} += "webmin-module-system-status"
 
@@ -134,11 +134,6 @@ python populate_packages_prepend() {
 }
 
 # Time-savers
-EXCLUDE_FROM_SHLIBS = "1"
-split_and_strip_files() {
-    :
-}
-
 package_do_pkgconfig() {
     :
 }
