@@ -9,8 +9,6 @@ RDEPENDS_${PN} += "perl-module-warnings perl-module-xsloader perl-module-posix p
 RDEPENDS_${PN} += "perl-module-fcntl perl-module-tie-hash perl-module-vars perl-module-time-local perl-module-config perl-module-constant"
 RDEPENDS_${PN} += "perl-module-file perl-module-file-glob perl-module-file-copy perl-module-sdbm perl-module-sdbm-file perl-module-timelocal perl-module-feature"
 
-PR = "r1"
-
 SRC_URI = "${SOURCEFORGE_MIRROR}/webadmin/webmin-${PV}.tar.gz \
           file://setup.sh \
           file://init-exclude.patch \
@@ -25,8 +23,8 @@ SRC_URI = "${SOURCEFORGE_MIRROR}/webadmin/webmin-${PV}.tar.gz \
           file://net-lib.pl.patch \
           file://media-tomb.patch"
 
-SRC_URI[md5sum] = "815005ed7f208dcfbda5308b446779c2"
-SRC_URI[sha256sum] = "07b06612a8bc864388d86b55ec9a9adba0fa71ec60cc66d87c0e58280264182d"
+SRC_URI[md5sum] = "e93bc5057a5b7d7e31ecb2bb228d7044"
+SRC_URI[sha256sum] = "3d36153406d8e5d3dcaeadba34dfb5cdbc4060b75c38339174ac97b2277f284b"
 
 inherit allarch perlnative update-rc.d
 
