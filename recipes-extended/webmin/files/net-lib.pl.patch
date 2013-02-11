@@ -13,7 +13,7 @@ diff -Nru webmin-1.570.orig//net/net-lib.pl webmin-1.570/net/net-lib.pl
  else {
 -	do "$gconfig{'os_type'}-lib.pl";
 +	#do "$gconfig{'os_type'}-lib.pl";
-+	do "/usr/libexec/webmin/net/debian-linux-lib.pl";
++	do "debian-linux-lib.pl";
  	}
  
  # list_hosts()
