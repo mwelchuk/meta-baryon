@@ -8,9 +8,9 @@ SRC_URI = "http://ffmpegthumbnailer.googlecode.com/files/${PN}-${PV}.tar.gz"
 
 DEPENDS = "ffmpeg jpeg libpng"
 
-SRC_URI[md5sum] = "2b5726894792ef484793dce9568a065a"
-SRC_URI[sha256sum] = "a71155339d17201a13fc3ebb649b0d00c7ab2d5a8880da071c8157a69c6f612b"
+SRC_URI[md5sum] = "03e081f89778cd5e4fce30b29a4630e1"
+SRC_URI[sha256sum] = "2c8bbefa838d38ea42fc8ac78258cda36865d974c991624b14cffdb92a3bc68b"
 
-PR = "r1"
+PR = "r0"
 
 inherit autotools
