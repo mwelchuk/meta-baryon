@@ -1,0 +1,25 @@
+Upstream-Status: Accepted
+
+libpng headers after 1.6.0 do not include cstring.
+Include cstring in pngwriter.cpp to make memcpy available.
+
+Signed-off-by: Kevin Strasser <kevin.strasser@linux.intel.com>
+---
+ libffmpegthumbnailer/pngwriter.cpp |    1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/libffmpegthumbnailer/pngwriter.cpp b/libffmpegthumbnailer/pngwriter.cpp
+index 1d40b1c..6648265 100644
+--- a/libffmpegthumbnailer/pngwriter.cpp
++++ b/libffmpegthumbnailer/pngwriter.cpp
+@@ -17,6 +17,7 @@
+ #include "pngwriter.h"
+ #include <stdexcept>
+ #include <cassert>
++#include <cstring>
+
+ using namespace std;
+
+--
+1.7.9.5
+

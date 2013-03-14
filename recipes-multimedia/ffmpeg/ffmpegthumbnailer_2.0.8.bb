@@ -4,7 +4,8 @@ HOMEPAGE = "http://code.google.com/p/ffmpegthumbnailer/"
 
 LICENSE = "GPLv2"
 LIC_FILES_CHKSUM = "file://COPYING;md5=393a5ca445f6965873eca0259a17f833"
-SRC_URI = "http://ffmpegthumbnailer.googlecode.com/files/${PN}-${PV}.tar.gz"
+SRC_URI = "http://ffmpegthumbnailer.googlecode.com/files/${PN}-${PV}.tar.gz \
+           file://include-cstring.patch"
 
 DEPENDS = "ffmpeg jpeg libpng"
 
