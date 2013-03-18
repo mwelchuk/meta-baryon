@@ -6,18 +6,14 @@ SRC_URI = "http://samba.org/samba/ftp/stable/samba-${PV}.tar.gz \
            file://volatiles.03_samba \
            file://smb.conf \
            file://smb.conf.example \
-           file://init \
+           file://init.samba \
+           file://init.winbind \
            file://tdb.pc \
            "
 
 S = "${WORKDIR}/samba-${PV}/source"
 
 inherit autotools update-rc.d
-
-FILES_${PN}     += "${libdir}/vfs/*.so ${libdir}/charset/*.so ${libdir}/*.dat \
-                    ${libdir}/auth/*.so ${libdir}/security/*.so"
-FILES_${PN}-dbg += "${libdir}/vfs/.debug/*.so ${libdir}/charset/.debug/*.so \
-                    ${libdir}/auth/.debug/*.so ${libdir}/security/.debug/*.so"
 
 SAMBAMMAP = "no"
 SAMBAMMAP_libc-glibc = "yes"
@@ -39,10 +35,14 @@ EXTRA_OECONF='--disable-cups \
               --with-swatdir=${datadir}/swat \
               --with-aio-support \
               --without-libtalloc \
+              --without-acl-support \
+              --disable-avahi \
               samba_cv_struct_timespec=yes \
               libreplace_cv_HAVE_MMAP=${SAMBAMMAP}'
 
-INITSCRIPT_NAME = "samba"
+INITSCRIPT_PACKAGES = "samba winbind"
+INITSCRIPT_NAME_samba = "samba"
+INITSCRIPT_NAME_winbind = "winbind"
 # No dependencies, goes in at level 20 (NOTE: take care with the
 # level, later levels put the shutdown later too - see the links
 # in rc6.d, the shutdown must precede network shutdown).
@@ -70,8 +70,6 @@ do_install_append() {
 	mkdir -p ${D}${base_sbindir}
 	rm -f ${D}${bindir}/*.old
 	rm -f ${D}${sbindir}/*.old
-	rmdir ${D}${libdir}/idmap ${D}${libdir}/nss_info ${D}${libdir}/perfcount
-	rmdir ${D}${libdir}/pdb ${D}${libdir}/rpc ${D}${libdir}/gpext
 	[ -f ${D}${sbindir}/mount.cifs ] && mv ${D}${sbindir}/mount.cifs ${D}${base_sbindir}/
 	[ -f ${D}${sbindir}/umount.cifs ] && mv ${D}${sbindir}/umount.cifs ${D}${base_sbindir}/
 
@@ -82,11 +80,32 @@ do_install_append() {
 		ln -sf ${bindir}/smbmount ${D}${base_sbindir}/mount.smbfs
 	fi
 	
-	install -D -m 755 ${WORKDIR}/init ${D}${sysconfdir}/init.d/samba
+        install -D -m 755 ${WORKDIR}/init.samba ${D}${sysconfdir}/init.d/samba
+        install -D -m 755 ${WORKDIR}/init.winbind ${D}${sysconfdir}/init.d/winbind
 	install -D -m 644 ${WORKDIR}/smb.conf ${D}${sysconfdir}/samba/smb.conf
-	install -D -m 644 ${WORKDIR}/smb.conf.example ${D}${sysconfdir}/samba/smb.conf.example
+    install -D -m 644 ${WORKDIR}/smb.conf.example ${D}${sysconfdir}/samba/smb.conf.example
 	install -D -m 644 ${WORKDIR}/volatiles.03_samba ${D}${sysconfdir}/default/volatiles/volatiles.03_samba
 	install -d ${D}/var/log/samba
 	install -d ${D}/var/spool/samba
+
+	# Install other stuff not installed by "make install"
+	if [ -d ${WORKDIR}/${PN}-${PV}/nsswitch ]; then
+		install -m 0644 ${WORKDIR}/${PN}-${PV}/nsswitch/libnss_winbind.so ${D}${libdir}/libnss_winbind.so.2
+		install -m 0644 ${WORKDIR}/${PN}-${PV}/nsswitch/libnss_wins.so ${D}${libdir}/libnss_wins.so.2
+	fi
+
+	rmdir --ignore-fail-on-non-empty ${D}${base_sbindir}
+	sed -i -e '1s,#!.*perl,#!${USRBINPATH}/env perl,' ${D}${bindir}/findsmb
 }
 
+
+
+pkg_postinst_libnss-winbind () {
+    # add wins to the list of resolvers
+    ns=$D${sysconfdir}/nsswitch.conf
+    if ! grep "hosts:.*wins" $ns > /dev/null; then
+	hosts="`grep '^hosts:' $ns`"
+	hosts=`echo "$hosts" | sed 's/\[/\\\\[/g; s/\]/\\\\]/g'`
+	sed -i "s/$hosts/$hosts wins/" "$ns"
+    fi
+}
