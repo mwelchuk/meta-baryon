@@ -1,28 +1,36 @@
-IMAGE_FEATURES = "nfs-server package-management ssh-server-dropbear debug-tweaks"
+IMAGE_FEATURES = " \
+                     debug-tweaks \
+                     nfs-server \
+                     package-management \
+                     ssh-server-openssh \
+                 "
 
 inherit core-image
 
-IMAGE_INSTALL += "samba procps mdadm e2fsprogs-mke2fs parted \
+IMAGE_INSTALL += " \
+                     e2fsprogs-mke2fs \
+                     lvm2 \
+                     mdadm \
+                     openssh-sftp-server \
+                     parted \
+                     procps \
+                     proftpd \
+                     samba \
+                     util-linux-mkfs \
                      webmin \
-                     webmin-module-status \
-                     webmin-module-proc \
+                     webmin-module-acl \
+                     webmin-module-init \
                      webmin-module-mount \
-                     webmin-module-fdisk \
-                     webmin-module-lvm \
-                     webmin-module-raid \
+                     webmin-module-net \
+                     webmin-module-proftpd \
                      webmin-module-samba \
                      webmin-module-servers \
-                     webmin-module-proftpd \
-                     webmin-module-exports \
-                     webmin-module-init \
-                     webmin-module-net \
-                     webmin-module-webmin \
-                     webmin-module-useradmin \
+                     webmin-module-sshd \
+                     webmin-module-status \
                      webmin-module-time \
+                     webmin-module-useradmin \
+                     webmin-module-webmin \
                      webmin-module-webmincron \
-                     webmin-module-mediatomb \
                      webmin-notice \
-                     webmin-module-acl \
-                     mediatomb \
-                     proftpd"
+                 "
 
