@@ -1,7 +1,7 @@
 DESCRIPTION = "Web administration notice script"
 LICENSE = "MIT"
 SRC_URI = "file://webmin-notice.sh"
-LIC_FILES_CHKSUM = "file://${COREBASE}/LICENSE;md5=3f40d7994397109285ec7b81fdeb3b58"
+LIC_FILES_CHKSUM = "file://${COREBASE}/meta/files/common-licenses/MIT;md5=0835ade698e0bcf8506ecda2f7b4f302"
 RDEPENDS_${PN} = "webmin"
 
 inherit allarch update-rc.d
